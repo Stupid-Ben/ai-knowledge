@@ -1,0 +1,83 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-sm;
+  box-shadow: $shadow-card;
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.coverWrap {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis-multi(2);
+  line-height: $line-height-tight;
+}
+
+.summary {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  @include text-ellipsis-multi(2);
+  margin-top: 8rpx;
+  line-height: $line-height-tight;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: 8rpx;
+}
+
+.metaItem {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.tagRow {
+  display: flex;
+  gap: 8rpx;
+  flex-wrap: wrap;
+  margin-top: 4rpx;
+}
+
+.tag {
+  font-size: 20rpx;
+  color: $color-primary;
+  background: $color-primary-bg;
+  padding: 2rpx 10rpx;
+  border-radius: $radius-xs;
+}
+
+.premiumTag {
+  font-size: 20rpx;
+  color: $color-vip-dark;
+  background: $color-vip-bg;
+  padding: 2rpx 10rpx;
+  border-radius: $radius-xs;
+}

@@ -1,0 +1,122 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: $spacing-xl;
+}
+
+// Grid view
+.gridView {
+  padding: $spacing-md;
+}
+
+.gridHeader {
+  margin-bottom: $spacing-md;
+}
+
+.gridTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.gridSubtitle {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+.categoryGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.categoryCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.categoryIcon {
+  width: 96rpx;
+  height: 96rpx;
+  background: $color-primary-bg;
+  border-radius: $radius-lg;
+  @include flex-center;
+  flex-shrink: 0;
+}
+
+.categoryIconText {
+  font-size: 40rpx;
+}
+
+.categoryInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.categoryName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.categoryTagline {
+  font-size: 22rpx;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+  @include text-ellipsis;
+}
+
+.categoryCount {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  background: $color-bg-hover;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-round;
+  margin-top: 8rpx;
+  align-self: flex-start;
+}
+
+.categoryArrow {
+  font-size: $font-size-lg;
+  color: $color-text-disabled;
+  flex-shrink: 0;
+}
+
+// List view
+.listView {
+  min-height: 100vh;
+}
+
+.listHeader {
+  padding: $spacing-sm $spacing-lg;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background: $color-bg-card;
+  border-bottom: 2rpx solid $color-border;
+}
+
+.backBtn {
+  width: 56rpx;
+  height: 56rpx;
+  @include flex-center;
+  font-size: $font-size-lg;
+}
+
+.listHeaderTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.listArticles {
+  padding: $spacing-md $spacing-lg;
+}

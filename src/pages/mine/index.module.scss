@@ -1,0 +1,260 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: $spacing-md;
+  padding-bottom: $spacing-xl;
+}
+
+// Profile
+.profileCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+.avatar {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: $radius-round;
+  background: $color-bg-input;
+  @include flex-center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.username {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.userId {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+.vipTag {
+  font-size: 20rpx;
+  color: $color-vip-dark;
+  background: $color-vip-bg;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-round;
+  margin-top: 8rpx;
+  display: inline-block;
+}
+
+// Stats
+.statsRow {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.statCard {
+  flex: 1;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  text-align: center;
+  box-shadow: $shadow-card;
+}
+
+.statNum {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+// Sign in
+.signInCard {
+  background: linear-gradient(135deg, $color-primary-bg, #d5f3df);
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-lg;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.signInInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.signInIcon {
+  font-size: 40rpx;
+}
+
+.signInTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.signInPoints {
+  font-size: $font-size-xs;
+  color: $color-primary;
+}
+
+.signInBtn {
+  padding: 8rpx 24rpx;
+  background: $color-primary;
+  border-radius: $radius-button;
+}
+
+.signInBtnDone {
+  background: $color-bg-card;
+  border: 2rpx solid $color-border;
+}
+
+.signInBtnText {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+}
+
+.signInBtnTextDone {
+  color: $color-text-tertiary;
+}
+
+// Menu
+.menuSection {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+  margin-bottom: $spacing-md;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 2rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.menuItemLeft {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.menuIcon {
+  font-size: $font-size-lg;
+}
+
+.menuLabel {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+}
+
+.menuArrow {
+  color: $color-text-disabled;
+  font-size: $font-size-md;
+}
+
+.menuValue {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+// Sub views
+.subView {
+  padding: $spacing-md;
+}
+
+.subHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.subBack {
+  font-size: $font-size-lg;
+  width: 56rpx;
+  height: 56rpx;
+  @include flex-center;
+}
+
+.subTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.emptyHint {
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  padding: $spacing-xl 0;
+}
+
+// Logout
+.logoutSection {
+  padding-bottom: $spacing-xl;
+}
+
+.logoutBtn {
+  width: 100%;
+  height: $button-height-md;
+  background: $color-bg-card;
+  border: 2rpx solid $color-error;
+  border-radius: $radius-button;
+  @include flex-center;
+}
+
+.logoutBtnText {
+  color: $color-error;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+}
+
+// Font size buttons
+.fontSizeRow {
+  display: flex;
+  gap: $spacing-sm;
+  padding: $spacing-sm 0;
+}
+
+.fontSizeBtn {
+  padding: 8rpx 24rpx;
+  border-radius: $radius-button;
+  background: $color-bg-hover;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.fontSizeBtnActive {
+  background: $color-primary;
+  color: $color-text-white;
+}

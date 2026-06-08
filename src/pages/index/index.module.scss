@@ -1,0 +1,337 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: $spacing-xl;
+}
+
+// Welcome / Unlogged screen
+.welcomeBg {
+  min-height: 100vh;
+  background: linear-gradient(180deg, $color-primary-bg 0%, $color-bg-page 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl;
+}
+
+.welcomeLogo {
+  width: 128rpx;
+  height: 128rpx;
+  background: $color-primary;
+  border-radius: $radius-lg;
+  @include flex-center;
+  margin-bottom: $spacing-lg;
+}
+
+.welcomeLogoText {
+  font-size: 56rpx;
+}
+
+.welcomeTitle {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  text-align: center;
+}
+
+.welcomeSubtitle {
+  font-size: $font-size-md;
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+  text-align: center;
+  margin-top: $spacing-sm;
+}
+
+.welcomeFeatures {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-top: $spacing-xl;
+  width: 100%;
+  max-width: $max-content-width;
+  box-shadow: $shadow-card;
+}
+
+.featureTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  text-align: center;
+  margin-bottom: $spacing-md;
+}
+
+.featureItem {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+}
+
+.featureCheck {
+  color: $color-primary;
+  margin-right: 8rpx;
+}
+
+.loginBtn {
+  width: 100%;
+  height: $button-height-md;
+  background: $color-primary;
+  border-radius: $radius-button;
+  @include flex-center;
+  margin-top: $spacing-lg;
+  box-shadow: 0 4rpx 12rpx rgba($color-primary, 0.3);
+}
+
+.loginBtnText {
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+}
+
+.loginTip {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  text-align: center;
+  margin-top: $spacing-sm;
+}
+
+// Search bar
+.searchBar {
+  padding: $spacing-sm $spacing-lg;
+  background: $color-bg-card;
+}
+
+.searchInner {
+  height: 64rpx;
+  background: $color-bg-input;
+  border-radius: $radius-button;
+  @include flex-center;
+  gap: 8rpx;
+}
+
+.searchIcon {
+  font-size: $font-size-md;
+}
+
+.searchPlaceholder {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+// Banner
+.bannerWrap {
+  padding: $spacing-sm $spacing-lg;
+}
+
+.bannerSwiper {
+  height: 280rpx;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.bannerItem {
+  height: 280rpx;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bannerGreen {
+  background: linear-gradient(135deg, #07C160, #2ecc71);
+}
+
+.bannerGold {
+  background: linear-gradient(135deg, #FFB800, #FF8F1F);
+}
+
+.bannerTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+}
+
+.bannerSubtitle {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8rpx;
+  margin-bottom: $spacing-sm;
+}
+
+.bannerBtn {
+  align-self: flex-start;
+  padding: 8rpx 24rpx;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: $radius-button;
+}
+
+.bannerBtnText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+// Section header
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md $spacing-lg $spacing-sm;
+}
+
+.sectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.sectionMore {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+// Category grid
+.categoryGrid {
+  padding: 0 $spacing-lg;
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.categoryCard {
+  width: calc(50% - 8rpx);
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.categoryIcon {
+  width: 64rpx;
+  height: 64rpx;
+  background: $color-primary-bg;
+  border-radius: $radius-md;
+  @include flex-center;
+  flex-shrink: 0;
+}
+
+.categoryIconText {
+  font-size: 30rpx;
+}
+
+.categoryName {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.categoryCount {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+// Ranking tabs
+.rankingTabs {
+  display: flex;
+  gap: $spacing-sm;
+  padding: 0 $spacing-lg;
+  margin-top: $spacing-md;
+  margin-bottom: $spacing-sm;
+}
+
+.rankingTab {
+  padding: 8rpx 24rpx;
+  border-radius: $radius-button;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-secondary;
+  background: $color-bg-card;
+  border: 2rpx solid $color-border;
+}
+
+.rankingTabActive {
+  color: $color-primary;
+  background: $color-primary-bg;
+  border-color: $color-primary;
+}
+
+// Ranking list
+.rankingList {
+  padding: 0 $spacing-lg;
+}
+
+.rankingItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm 0;
+  border-bottom: 2rpx solid $color-divider;
+  gap: $spacing-sm;
+}
+
+.rankingIndex {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: $radius-round;
+  @include flex-center;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  flex-shrink: 0;
+}
+
+.rankingIndexTop {
+  background: $color-primary;
+  color: $color-text-white;
+}
+
+.rankingIndexNormal {
+  background: $color-bg-hover;
+  color: $color-text-secondary;
+}
+
+.rankingTitle {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  @include text-ellipsis;
+}
+
+.rankingView {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+// Feed article list
+.feedList {
+  padding: 0 $spacing-lg;
+}
+
+.feedSection {
+  padding-top: $spacing-md;
+}
+
+// Pull refresh tips
+.refreshTip {
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  padding: $spacing-sm 0;
+}
+
+// Load more
+.loadMore {
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  padding: $spacing-md 0;
+}
+
+.loadMoreEnd {
+  color: $color-text-disabled;
+}
