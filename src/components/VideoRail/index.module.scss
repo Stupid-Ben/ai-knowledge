@@ -1,0 +1,120 @@
+@use '@/styles/variables.scss' as *;
+
+.railSection {
+  padding: $spacing-md $page-padding 0;
+}
+
+.railHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+}
+
+.railTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.railMore {
+  padding: 4rpx 0;
+}
+
+.railMoreText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.railScroll {
+  @include scroll-x-container;
+  margin-left: -$page-padding;
+  padding-left: $page-padding;
+}
+
+.railInner {
+  display: flex;
+  gap: 20rpx;
+  padding-right: $page-padding;
+}
+
+.railCard {
+  flex-shrink: 0;
+  width: 240rpx;
+}
+
+.railCoverWrap {
+  position: relative;
+  width: 240rpx;
+  height: 136rpx;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+.railCover {
+  width: 100%;
+  height: 100%;
+}
+
+.railPlayBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48rpx;
+  height: 48rpx;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: $radius-round;
+  @include flex-center;
+}
+
+.railPlayIcon {
+  font-size: 20rpx;
+  color: $color-text-white;
+  margin-left: 4rpx;
+}
+
+.railDuration {
+  position: absolute;
+  right: 8rpx;
+  bottom: 8rpx;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: $radius-xs;
+  padding: 2rpx 8rpx;
+}
+
+.railDurationText {
+  font-size: 18rpx;
+  color: $color-text-white;
+}
+
+.railPremiumBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: $color-vip;
+  border-radius: 0 0 0 $radius-sm;
+  padding: 2rpx 8rpx;
+}
+
+.railPremiumText {
+  font-size: 16rpx;
+  color: $color-text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.railCardTitle {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  @include text-ellipsis;
+  margin-top: 8rpx;
+}
+
+.railCardMeta {
+  display: block;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}

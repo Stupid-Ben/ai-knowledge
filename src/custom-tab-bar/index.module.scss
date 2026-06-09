@@ -1,0 +1,85 @@
+@use '@/styles/variables.scss' as *;
+
+.tabBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: $color-bg-card;
+  // 顶部微阴影，增加层次感
+  box-shadow: 0 -1rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.tabBarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100rpx;
+  padding: 0 8rpx;
+}
+
+.tabItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 6rpx 0 2rpx;
+}
+
+.iconWrap {
+  width: 48rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12rpx;
+  transition: all 0.2s ease;
+}
+
+.iconWrapActive {
+  // 选中时的微光背景
+  background: $color-primary-bg;
+  transform: scale(1.1);
+}
+
+.icon {
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.label {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+  font-weight: $font-weight-normal;
+  transition: all 0.2s ease;
+}
+
+.labelActive {
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: $radius-round;
+  background: $color-primary;
+  margin-top: 4rpx;
+  // 脉冲动画效果
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.8); }
+}
+
+.safeArea {
+  // iPhone X 等机型的安全区域适配
+  height: env(safe-area-inset-bottom);
+  background: $color-bg-card;
+}

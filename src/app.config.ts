@@ -16,6 +16,7 @@ export default defineAppConfig({
     navigationBarTextStyle: 'black'
   },
   tabBar: {
+    custom: true,
     color: '#999999',
     selectedColor: '#07C160',
     backgroundColor: '#ffffff',
@@ -23,7 +24,7 @@ export default defineAppConfig({
     list: [
       {
         pagePath: 'pages/index/index',
-        text: '推荐首页'
+        text: '推荐'
       },
       {
         pagePath: 'pages/category/index',
@@ -31,11 +32,11 @@ export default defineAppConfig({
       },
       {
         pagePath: 'pages/video/index',
-        text: '视频课'
+        text: '视频'
       },
       {
         pagePath: 'pages/vip/index',
-        text: 'VIP伴学'
+        text: 'VIP'
       },
       {
         pagePath: 'pages/mine/index',

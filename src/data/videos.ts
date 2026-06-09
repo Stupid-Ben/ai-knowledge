@@ -38,9 +38,9 @@ export const MOCK_VIDEOS: Video[] = [
     seriesKey: 'ai-intro',
     episode: 1,
     category: '扫盲',
-    isPremium: false,
+    isPremium: true,
     desc: '从图灵测试到深度学习，用大白话帮你快速了解人工智能的发展历程。看完这一集，你就能在朋友面前聊 AI 了！',
-    plays: 15200,
+    plays: 85200,
     collects: 3800,
     publishedAt: '2026-05-20'
   },

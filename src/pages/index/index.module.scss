@@ -3,7 +3,7 @@
 .page {
   min-height: 100vh;
   background: $color-bg-page;
-  padding-bottom: $spacing-xl;
+  padding-bottom: 140rpx;
 }
 
 // Welcome / Unlogged screen
@@ -157,16 +157,20 @@
   bottom: 0;
   border-radius: $radius-md;
   // 搭配图片使用的半透明渐变遮罩，保留文字可读性
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.15) 100%);
 }
 
 .bannerTitle {
+  position: relative;
+  z-index: 1;
   font-size: $font-size-lg;
   font-weight: $font-weight-bold;
   color: $color-text-white;
 }
 
 .bannerSubtitle {
+  position: relative;
+  z-index: 1;
   font-size: $font-size-sm;
   color: rgba(255, 255, 255, 0.85);
   margin-top: 8rpx;
@@ -174,6 +178,8 @@
 }
 
 .bannerBtn {
+  position: relative;
+  z-index: 1;
   align-self: flex-start;
   padding: 8rpx 24rpx;
   background: rgba(255, 255, 255, 0.25);

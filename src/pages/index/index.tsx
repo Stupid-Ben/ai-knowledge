@@ -7,25 +7,26 @@ import { useAppContext } from '@/store/appContext';
 import { Article } from '@/types';
 import { MOCK_ARTICLES, CATEGORIES, RANKING_LISTS } from '@/data/articles';
 import ArticleCard from '@/components/ArticleCard';
+import VideoRail from '@/components/VideoRail';
+import { MOCK_VIDEOS } from '@/data/videos';
 
 const BANNERS = [
   {
     id: 'b-1',
-    title: '零基础 AI 扫盲手册已上线',
-    subtitle: '教您用大白话跟 AI 提问聊天，拒绝技术焦虑！',
+    title: '零基础 AI 网赚手册已上线',
+    subtitle: '教您利用前沿技术追赶风口，拒绝技术焦虑！',
     articleId: 'art-001',
     bannerClass: 'bannerGreen',
-    // 如需换图片，取消下面注释并填入图片地址，渐变遮罩会自动叠加
-    // bgImage: 'D:\code\ai-knowledge\src\pages\index\s1.png',
-    buttonText: '极速学习'
+    bgImage: 'https://picsum.photos/id/180/960/540',
+    buttonText: '极速免费学习'
   },
   {
     id: 'b-2',
     title: '抢占时代先机！开通高级会员',
-    subtitle: '无限次数解锁进阶精品科普，多达1000款开箱提示词。',
+    subtitle: '无限次数解锁进阶精品科普，多达1000款开箱技术文章！',
     isVipLink: true,
     bannerClass: 'bannerGold',
-   // bgImage: 'D:\code\ai-knowledge\src\pages\index\s2.png',
+    bgImage: 'https://picsum.photos/id/160/960/540',
     buttonText: '开通VIP'
   }
 ];
@@ -37,6 +38,11 @@ const IndexPage: React.FC = () => {
   const [activeRankingTab, setActiveRankingTab] = useState<'hot' | 'collect' | 'newbie'>('hot');
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+
+  const hotVideos = useMemo(
+    () => [...MOCK_VIDEOS].sort((a, b) => b.plays - a.plays).slice(0, 8),
+    []
+  );
 
   useDidShow(() => {
     console.log('[IndexPage] 首页展示');
@@ -193,9 +199,12 @@ const IndexPage: React.FC = () => {
         </Swiper>
       </View>
 
+      {/* Video Rail */}
+      <VideoRail videos={hotVideos} />
+
       {/* 6 Categories Grid */}
       <View className={styles.sectionHeader}>
-        <Text className={styles.sectionTitle}>科普专题分类</Text>
+        <Text className={styles.sectionTitle}>文章专题</Text>
       </View>
       <View className={styles.categoryGrid}>
         {CATEGORIES.map((cat) => {
@@ -220,7 +229,7 @@ const IndexPage: React.FC = () => {
 
       {/* Ranking Tabs */}
       <View className={styles.sectionHeader}>
-        <Text className={styles.sectionTitle}>热门榜单</Text>
+        <Text className={styles.sectionTitle}>必看文章</Text>
       </View>
       <View className={styles.rankingTabs}>
         {(['hot', 'collect', 'newbie'] as const).map((key) => {
