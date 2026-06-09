@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { View, Text, ScrollView, Image } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import classnames from 'classnames';
@@ -8,9 +8,9 @@ import { MOCK_ARTICLES } from '@/data/articles';
 import ArticleCard from '@/components/ArticleCard';
 
 const FontSizes = [
-  { key: 'small', label: '小号', cls: 'text-sm' },
-  { key: 'medium', label: '标准', cls: 'text-base' },
-  { key: 'large', label: '大号', cls: 'text-lg' }
+  { key: 'small', label: '标准' },
+  { key: 'medium', label: '大号' },
+  { key: 'large', label: '超大' }
 ];
 
 const MinePage: React.FC = () => {
@@ -21,6 +21,11 @@ const MinePage: React.FC = () => {
 
   useDidShow(() => {
     console.log('[MinePage] 我的页面展示');
+    // 读取本地字号偏好
+    try {
+      const saved = Taro.getStorageSync('ai_font_size');
+      if (saved) setFontSizeKey(saved);
+    } catch (_) {}
   });
 
   const handleArticleClick = (articleId: string) => {
@@ -57,18 +62,30 @@ const MinePage: React.FC = () => {
     Taro.showToast({ title: '已退出登录', icon: 'success' });
   };
 
-  // Sub views
+  const handleChangeFontSize = (key: string) => {
+    setFontSizeKey(key);
+    try {
+      Taro.setStorageSync('ai_font_size', key);
+      Taro.showToast({ title: '字号已保存', icon: 'success' });
+    } catch (_) {}
+  };
+
+  // ===== 子视图：收藏 =====
   if (activeSubView === 'fav') {
     return (
       <ScrollView className={styles.subView} scrollY>
         <View className={styles.subHeader}>
           <View className={styles.subBack} onClick={() => setActiveSubView('none')}>
-            <Text>←</Text>
+            <Text>{'←'}</Text>
           </View>
           <Text className={styles.subTitle}>我的收藏</Text>
         </View>
         {favoritedArticles.length === 0 ? (
-          <Text className={styles.emptyHint}>暂无收藏文章</Text>
+          <View className={styles.emptyWrap}>
+            <Text className={styles.emptyIcon}>{'⭐'}</Text>
+            <Text className={styles.emptyHint}>暂无收藏文章</Text>
+            <Text className={styles.emptySubHint}>阅读时点击收藏，文章会出现在这里</Text>
+          </View>
         ) : (
           favoritedArticles.map((article) => (
             <ArticleCard key={article.id} article={article} onClick={handleArticleClick} />
@@ -78,24 +95,29 @@ const MinePage: React.FC = () => {
     );
   }
 
+  // ===== 子视图：浏览历史 =====
   if (activeSubView === 'history') {
     return (
       <ScrollView className={styles.subView} scrollY>
         <View className={styles.subHeader}>
           <View className={styles.subBack} onClick={() => setActiveSubView('none')}>
-            <Text>←</Text>
+            <Text>{'←'}</Text>
           </View>
           <Text className={styles.subTitle}>阅读记录</Text>
         </View>
         {historyArticles.length === 0 ? (
-          <Text className={styles.emptyHint}>暂无阅读记录</Text>
+          <View className={styles.emptyWrap}>
+            <Text className={styles.emptyIcon}>{'🕐'}</Text>
+            <Text className={styles.emptyHint}>暂无阅读记录</Text>
+            <Text className={styles.emptySubHint}>快去首页探索文章吧</Text>
+          </View>
         ) : (
           <>
             {historyArticles.map((article) => (
               <ArticleCard key={article.id} article={article} onClick={handleArticleClick} />
             ))}
-            <View className={styles.logoutBtn} style={{ marginTop: '32rpx' }} onClick={handleClearHistory}>
-              <Text className={styles.logoutBtnText}>清空阅读记录</Text>
+            <View className={styles.clearBtn} onClick={handleClearHistory}>
+              <Text className={styles.clearBtnText}>清空阅读记录</Text>
             </View>
           </>
         )}
@@ -103,12 +125,13 @@ const MinePage: React.FC = () => {
     );
   }
 
+  // ===== 子视图：字体大小 =====
   if (activeSubView === 'fontSize') {
     return (
       <ScrollView className={styles.subView} scrollY>
         <View className={styles.subHeader}>
           <View className={styles.subBack} onClick={() => setActiveSubView('none')}>
-            <Text>←</Text>
+            <Text>{'←'}</Text>
           </View>
           <Text className={styles.subTitle}>调整字体大小</Text>
         </View>
@@ -117,22 +140,21 @@ const MinePage: React.FC = () => {
             <View
               key={fs.key}
               className={classnames(styles.fontSizeBtn, fontSizeKey === fs.key && styles.fontSizeBtnActive)}
-              onClick={() => setFontSizeKey(fs.key)}
+              onClick={() => handleChangeFontSize(fs.key)}
             >
               <Text>{fs.label}</Text>
             </View>
           ))}
         </View>
-        <Text style={{ fontSize: '24rpx', color: '#999', marginTop: '16rpx' }}>
-          该设置将应用到文章详情页面
-        </Text>
+        <Text className={styles.fontSizeHint}>该设置将应用到文章详情页面</Text>
       </ScrollView>
     );
   }
 
+  // ===== 主视图 =====
   return (
     <ScrollView className={styles.page} scrollY>
-      {/* Profile */}
+      {/* 用户卡片 */}
       <View className={styles.profileCard}>
         <View className={styles.avatar}>
           <Image
@@ -144,13 +166,15 @@ const MinePage: React.FC = () => {
         <View className={styles.profileInfo}>
           <Text className={styles.username}>学者用户</Text>
           <Text className={styles.userId}>ID: AI2026</Text>
-          {user.isMember && (
-            <Text className={styles.vipTag}>VIP 会员</Text>
+          {user.isMember ? (
+            <Text className={styles.vipTag}>VIP 会员 · 有效期内</Text>
+          ) : (
+            <Text className={styles.noVipTag}>您还不是会员</Text>
           )}
         </View>
       </View>
 
-      {/* Stats */}
+      {/* 数据统计 */}
       <View className={styles.statsRow}>
         <View className={styles.statCard}>
           <Text className={styles.statNum}>{user.points}</Text>
@@ -170,10 +194,10 @@ const MinePage: React.FC = () => {
         </View>
       </View>
 
-      {/* Sign In */}
+      {/* 签到 */}
       <View className={styles.signInCard}>
         <View className={styles.signInInfo}>
-          <Text className={styles.signInIcon}>📅</Text>
+          <Text className={styles.signInIcon}>{'📅'}</Text>
           <View>
             <Text className={styles.signInTitle}>每日签到</Text>
             <Text className={styles.signInPoints}>签到赚积分，连续签到奖励翻倍</Text>
@@ -189,48 +213,58 @@ const MinePage: React.FC = () => {
         </View>
       </View>
 
-      {/* Menu */}
+      {/* 菜单列表 */}
       <View className={styles.menuSection}>
         <View className={styles.menuItem} onClick={() => setActiveSubView('fav')}>
           <View className={styles.menuItemLeft}>
-            <Text className={styles.menuIcon}>⭐</Text>
+            <Text className={styles.menuIcon}>{'⭐'}</Text>
             <Text className={styles.menuLabel}>我的收藏</Text>
           </View>
-          <View style={{ display: 'flex', alignItems: 'center', gap: '8rpx' }}>
+          <View className={styles.menuItemRight}>
             <Text className={styles.menuValue}>{user.collectedIds.length}篇</Text>
-            <Text className={styles.menuArrow}>›</Text>
+            <Text className={styles.menuArrow}>{'›'}</Text>
           </View>
         </View>
         <View className={styles.menuItem} onClick={() => setActiveSubView('history')}>
           <View className={styles.menuItemLeft}>
-            <Text className={styles.menuIcon}>🕐</Text>
+            <Text className={styles.menuIcon}>{'🕐'}</Text>
             <Text className={styles.menuLabel}>阅读记录</Text>
           </View>
-          <View style={{ display: 'flex', alignItems: 'center', gap: '8rpx' }}>
+          <View className={styles.menuItemRight}>
             <Text className={styles.menuValue}>{user.historyIds.length}篇</Text>
-            <Text className={styles.menuArrow}>›</Text>
+            <Text className={styles.menuArrow}>{'›'}</Text>
+          </View>
+        </View>
+        <View className={styles.menuItem} onClick={() => Taro.switchTab({ url: '/pages/vip/index' })}>
+          <View className={styles.menuItemLeft}>
+            <Text className={styles.menuIcon}>{'👑'}</Text>
+            <Text className={styles.menuLabel}>{user.isMember ? '会员续费' : '开通会员'}</Text>
+          </View>
+          <View className={styles.menuItemRight}>
+            {!user.isMember && <Text className={styles.menuBadge}>限时优惠</Text>}
+            <Text className={styles.menuArrow}>{'›'}</Text>
           </View>
         </View>
         <View className={styles.menuItem} onClick={() => setActiveSubView('fontSize')}>
           <View className={styles.menuItemLeft}>
-            <Text className={styles.menuIcon}>🔤</Text>
+            <Text className={styles.menuIcon}>{'🔤'}</Text>
             <Text className={styles.menuLabel}>字体大小</Text>
           </View>
-          <Text className={styles.menuArrow}>›</Text>
+          <Text className={styles.menuArrow}>{'›'}</Text>
         </View>
         <View className={styles.menuItem} onClick={handleInviteFriend}>
           <View className={styles.menuItemLeft}>
-            <Text className={styles.menuIcon}>📤</Text>
+            <Text className={styles.menuIcon}>{'📤'}</Text>
             <Text className={styles.menuLabel}>邀请好友</Text>
           </View>
-          <View style={{ display: 'flex', alignItems: 'center', gap: '8rpx' }}>
+          <View className={styles.menuItemRight}>
             <Text className={styles.menuValue}>+50积分</Text>
-            <Text className={styles.menuArrow}>›</Text>
+            <Text className={styles.menuArrow}>{'›'}</Text>
           </View>
         </View>
       </View>
 
-      {/* Logout */}
+      {/* 退出 */}
       <View className={styles.logoutSection}>
         <View className={styles.logoutBtn} onClick={handleLogout}>
           <Text className={styles.logoutBtnText}>退出登录</Text>

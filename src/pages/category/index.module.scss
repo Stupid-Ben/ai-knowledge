@@ -93,6 +93,7 @@
 // List view
 .listView {
   min-height: 100vh;
+  background: $color-bg-page;
 }
 
 .listHeader {
@@ -117,6 +118,31 @@
   color: $color-text-primary;
 }
 
+.listScroll {
+  height: calc(100vh - 88rpx);
+}
+
 .listArticles {
   padding: $spacing-md $spacing-lg;
+}
+
+.emptyHint {
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  padding: $spacing-xl 0;
+}
+
+.loadMore {
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  padding: $spacing-md 0;
+}
+
+.loadMoreEnd {
+  text-align: center;
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+  padding: $spacing-md 0;
 }

@@ -1,0 +1,46 @@
+@use '@/styles/variables.scss' as *;
+
+.wrapper {
+  padding: 28rpx 36rpx 0;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.premiumBadge {
+  font-size: $font-size-xs;
+  color: $color-vip;
+  background: $color-vip-bg;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-xs;
+  font-weight: $font-weight-semibold;
+}
+
+.tag {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  background: $color-bg-hover;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-xs;
+}
+
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  flex-wrap: wrap;
+}
+
+.stat {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.dot {
+  font-size: $font-size-xs;
+  color: $color-border;
+}

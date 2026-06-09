@@ -1,29 +1,54 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { View, Text, ScrollView } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import styles from './index.module.scss';
 import { CATEGORIES, MOCK_ARTICLES, CATEGORY_TAGLINES } from '@/data/articles';
 import ArticleCard from '@/components/ArticleCard';
 
+const PAGE_SIZE = 3;
+
 const CategoryPage: React.FC = () => {
   const [selectedCat, setSelectedCat] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useDidShow(() => {
     console.log('[CategoryPage] 分类页面展示');
   });
 
+  const allFiltered = useMemo(() => {
+    if (!selectedCat) return [];
+    return MOCK_ARTICLES.filter((art) => art.category === selectedCat);
+  }, [selectedCat]);
+
+  const displayedArticles = useMemo(() => {
+    return allFiltered.slice(0, page * PAGE_SIZE);
+  }, [allFiltered, page]);
+
+  const hasMore = displayedArticles.length < allFiltered.length;
+
   const handleArticleClick = (articleId: string) => {
     Taro.navigateTo({ url: `/pages/detail/index?id=${articleId}` });
   };
 
-  const handleBack = () => {
-    setSelectedCat(null);
+  const handleSelectCat = (key: string) => {
+    setSelectedCat(key);
+    setPage(1);
   };
 
-  const filteredArticles = useMemo(() => {
-    if (!selectedCat) return [];
-    return MOCK_ARTICLES.filter((art) => art.category === selectedCat);
-  }, [selectedCat]);
+  const handleBack = () => {
+    setSelectedCat(null);
+    setPage(1);
+  };
+
+  const handleLoadMore = useCallback(() => {
+    if (isLoadingMore || !hasMore) return;
+    setIsLoadingMore(true);
+    setTimeout(() => {
+      setPage((p) => p + 1);
+      setIsLoadingMore(false);
+    }, 500);
+  }, [isLoadingMore, hasMore]);
 
   const getCategoryIcon = (icon: string): string => {
     const map: Record<string, string> = {
@@ -33,36 +58,47 @@ const CategoryPage: React.FC = () => {
     return map[icon] || '✨';
   };
 
-  // List view for a specific category
+  // ===== 文章列表视图 =====
   if (selectedCat) {
     const cat = CATEGORIES.find((c) => c.key === selectedCat);
     return (
-      <ScrollView className={styles.listView} scrollY>
+      <View className={styles.listView}>
         <View className={styles.listHeader}>
           <View className={styles.backBtn} onClick={handleBack}>
-            <Text>←</Text>
+            <Text>{'←'}</Text>
           </View>
           <Text className={styles.listHeaderTitle}>{cat?.name || selectedCat}</Text>
         </View>
-        <View className={styles.listArticles}>
-          {filteredArticles.map((article) => (
-            <ArticleCard
-              key={article.id}
-              article={article}
-              onClick={handleArticleClick}
-            />
-          ))}
-          {filteredArticles.length === 0 && (
-            <Text style={{ textAlign: 'center', color: '#999', fontSize: '24rpx', padding: '48rpx 0' }}>
-              暂无相关文章
-            </Text>
-          )}
-        </View>
-      </ScrollView>
+        <ScrollView
+          scrollY
+          className={styles.listScroll}
+          onScrollToLower={handleLoadMore}
+          lowerThreshold={100}
+        >
+          <View className={styles.listArticles}>
+            {displayedArticles.map((article) => (
+              <ArticleCard
+                key={article.id}
+                article={article}
+                onClick={handleArticleClick}
+              />
+            ))}
+            {allFiltered.length === 0 && (
+              <Text className={styles.emptyHint}>暂无相关文章</Text>
+            )}
+            {isLoadingMore && (
+              <Text className={styles.loadMore}>加载中...</Text>
+            )}
+            {!hasMore && displayedArticles.length > 0 && (
+              <Text className={styles.loadMoreEnd}>{'—— 已加载全部 ——'}</Text>
+            )}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 
-  // Grid view - all categories
+  // ===== 分类宫格视图 =====
   return (
     <ScrollView className={styles.page} scrollY>
       <View className={styles.gridView}>
@@ -78,7 +114,7 @@ const CategoryPage: React.FC = () => {
               <View
                 key={cat.key}
                 className={styles.categoryCard}
-                onClick={() => setSelectedCat(cat.key)}
+                onClick={() => handleSelectCat(cat.key)}
               >
                 <View className={styles.categoryIcon}>
                   <Text className={styles.categoryIconText}>{getCategoryIcon(cat.icon)}</Text>
@@ -90,7 +126,7 @@ const CategoryPage: React.FC = () => {
                   </Text>
                   <Text className={styles.categoryCount}>{count} 篇科普</Text>
                 </View>
-                <Text className={styles.categoryArrow}>›</Text>
+                <Text className={styles.categoryArrow}>{'›'}</Text>
               </View>
             );
           })}

@@ -7,7 +7,8 @@ const DEFAULT_USER: User = {
   points: 120,
   friends: 2,
   collectedIds: ['art-001'],
-  historyIds: ['art-001', 'art-002']
+  historyIds: ['art-001', 'art-002'],
+  unlockedIds: []
 };
 
 const AppContext = createContext<AppContextType | null>(null);
