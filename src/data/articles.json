@@ -1,0 +1,73 @@
+[
+  {
+    "id": "a1",
+    "title": "",
+    "cover": "",
+    "summary": "用大白话讲清楚「大模型」到底是什么，以及它和你过去用的 AI 有什么不一样。",
+    "category": "🟢 AI入门扫盲",
+    "tags": [
+      "ChatGPT",
+      "入门"
+    ],
+    "isPremium": false,
+    "readMinutes": 3,
+    "views": 1280,
+    "collects": 96,
+    "publishedAt": "June 9, 2026",
+    "ranking": [
+      "新手最爱",
+      "本周最热"
+    ],
+    "contentHtml": ""
+  },
+  {
+    "id": "a2",
+    "title": "",
+    "cover": "",
+    "summary": "每周憋周报的痛苦，交给 AI。5 个可直接套用的提示词，让 AI 帮你把流水账写成漂亮周报。",
+    "category": "💼 工作提效",
+    "tags": [
+      "ChatGPT",
+      "提示词"
+    ],
+    "isPremium": true,
+    "readMinutes": 6,
+    "views": 860,
+    "collects": 213,
+    "publishedAt": "June 8, 2026",
+    "ranking": [
+      "收藏最多"
+    ],
+    "contentHtml": ""
+  },
+  {
+    "id": "a3",
+    "title": "",
+    "cover": "",
+    "summary": "",
+    "category": "",
+    "tags": [],
+    "isPremium": false,
+    "readMinutes": 3,
+    "views": 0,
+    "collects": 0,
+    "publishedAt": "",
+    "ranking": [],
+    "contentHtml": ""
+  },
+  {
+    "id": "a4",
+    "title": "",
+    "cover": "",
+    "summary": "",
+    "category": "",
+    "tags": [],
+    "isPremium": false,
+    "readMinutes": 3,
+    "views": 0,
+    "collects": 0,
+    "publishedAt": "",
+    "ranking": [],
+    "contentHtml": ""
+  }
+]

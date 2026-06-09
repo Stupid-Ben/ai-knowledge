@@ -1,0 +1,290 @@
+@use '@/styles/variables.scss' as *;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $color-bg-card;
+  border-radius: $radius-xl $radius-xl 0 0;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: $shadow-popup;
+  animation: sheetUp 0.3s ease-out;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.handle {
+  width: 80rpx;
+  height: 8rpx;
+  background: $color-border;
+  border-radius: $radius-round;
+  margin: 20rpx auto 0;
+}
+
+.content {
+  padding: 32rpx 36rpx;
+}
+
+.sheetTitle {
+  display: block;
+  text-align: center;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: 32rpx;
+}
+
+/* Plan Cards */
+.plans {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin-bottom: 36rpx;
+}
+
+.planCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background: $color-bg-hover;
+  border-radius: $radius-md;
+  border: 2rpx solid transparent;
+  transition: all 0.2s ease;
+}
+
+.planCardSelected {
+  border-color: $color-primary;
+  background: rgba($color-primary, 0.06);
+}
+
+.planCardRecommended {
+  background: $color-vip-bg;
+}
+
+.planCardRecommended.planCardSelected {
+  border-color: $color-vip;
+  background: rgba($color-vip, 0.1);
+}
+
+.badge {
+  position: absolute;
+  top: -2rpx;
+  right: 24rpx;
+  background: $color-vip;
+  padding: 2rpx 16rpx;
+  border-radius: 0 0 $radius-sm $radius-sm;
+}
+
+.badgeText {
+  font-size: 20rpx;
+  color: #1c1917;
+  font-weight: $font-weight-bold;
+}
+
+.planLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.planName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.planPeriod {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.planRight {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.planPrice {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-error;
+}
+
+.radio {
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid $color-border;
+  border-radius: $radius-round;
+  box-sizing: border-box;
+}
+
+.radioSelected {
+  border-color: $color-primary;
+  background: $color-primary;
+  position: relative;
+
+  &::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: $font-size-xs;
+    font-weight: bold;
+  }
+}
+
+/* Confirm Button */
+.confirmBtn {
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary, $color-primary-light);
+  border-radius: $radius-button;
+  @include flex-center;
+  box-shadow: 0 6rpx 24rpx rgba($color-primary, 0.35);
+  margin-bottom: 24rpx;
+}
+
+.confirmText {
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+}
+
+/* Other Methods */
+.otherMethods {
+  text-align: center;
+  padding: 12rpx 0;
+}
+
+.codeToggle {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  text-decoration: underline;
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 20rpx;
+}
+
+.codeInput {
+  flex: 1;
+  height: $button-height-md;
+  background: $color-bg-hover;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: 0 $spacing-md;
+  font-size: $font-size-sm;
+}
+
+.codeBtn {
+  height: $button-height-md;
+  padding: 0 $spacing-lg;
+  background: $color-primary;
+  border-radius: $radius-md;
+  @include flex-center;
+}
+
+.codeBtnText {
+  color: $color-text-white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+}
+
+/* Processing State */
+.processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28rpx;
+  padding: 64rpx 36rpx;
+}
+
+.fingerprintWrap {
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.fingerprint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140rpx;
+  height: 140rpx;
+  border: 4rpx solid $color-primary;
+  border-radius: $radius-round;
+}
+
+.ridge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: $radius-round;
+  background: $color-primary;
+  transform-origin: center center;
+  opacity: 0.3;
+}
+
+.scanLine {
+  position: absolute;
+  top: 10rpx;
+  left: 0;
+  right: 0;
+  height: 8rpx;
+  background: linear-gradient(90deg, transparent, $color-primary, transparent);
+  border-radius: $radius-round;
+  animation: fprintScan 2s ease-in-out infinite;
+}
+
+@keyframes fprintScan {
+  0% { top: 10rpx; opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { top: 150rpx; opacity: 0.3; }
+}
+
+.processingTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.processingTip {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.doneIcon {
+  font-size: 96rpx;
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

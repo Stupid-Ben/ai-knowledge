@@ -4,6 +4,8 @@ export interface Article {
   cover: string;
   summary: string;
   contentHtml: string;
+  /** 按段落切分好的 HTML 片段，用于详情页精准分段与会员墙截断 */
+  paragraphs: string[];
   tags: string[];
   category: string;
   isPremium: boolean;
@@ -39,6 +41,8 @@ export interface User {
   friends: number;
   collectedIds: string[];
   historyIds: string[];
+  /** 已单独解锁的文章 ID（非会员但通过单篇付费解锁） */
+  unlockedIds: string[];
 }
 
 export interface AppState {

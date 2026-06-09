@@ -1,0 +1,55 @@
+@use '@/styles/variables.scss' as *;
+
+.wrapper {
+  position: relative;
+  margin-top: -160rpx;
+  padding-bottom: 48rpx;
+}
+
+.mask {
+  height: 160rpx;
+  background: linear-gradient(to bottom, rgba(247, 248, 250, 0), #F7F8FA 70%);
+  pointer-events: none;
+}
+
+.cta {
+  text-align: center;
+  padding: 0 36rpx 32rpx;
+  background: #F7F8FA;
+}
+
+.icon {
+  font-size: 64rpx;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.title {
+  display: block;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: 12rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 32rpx;
+}
+
+.btn {
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary, $color-primary-light);
+  border-radius: $radius-button;
+  @include flex-center;
+  box-shadow: 0 6rpx 24rpx rgba($color-primary, 0.35);
+}
+
+.btnText {
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+}

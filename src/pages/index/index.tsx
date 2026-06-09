@@ -45,7 +45,14 @@ const IndexPage: React.FC = () => {
   };
 
   const handleSearch = () => {
-    Taro.showToast({ title: '搜索功能开发中', icon: 'none' });
+    console.log('[IndexPage] 搜索框被点击，准备跳转');
+    Taro.navigateTo({
+      url: '/pages/search/index',
+      fail: (err) => {
+        console.error('[IndexPage] 跳转搜索页失败:', err);
+        Taro.showToast({ title: '跳转失败: ' + err.errMsg, icon: 'none' });
+      }
+    });
   };
 
   const handleBannerTap = (banner: typeof BANNERS[0]) => {

@@ -1,0 +1,20 @@
+@use '@/styles/variables.scss' as *;
+
+.wrapper {
+  padding: 28rpx 36rpx 0;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  line-height: 1.7;
+}
+
+.fontSmall {
+  font-size: $font-size-sm;
+}
+
+.fontMedium {
+  font-size: $font-size-md;
+}
+
+.fontLarge {
+  font-size: $font-size-lg;
+}

@@ -1,0 +1,117 @@
+@use '@/styles/variables.scss' as *;
+
+.wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: $color-bg-card;
+  border-top: 2rpx solid $color-border;
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.06);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 16rpx 36rpx;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
+  padding: 8rpx 24rpx;
+}
+
+.shareBtn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  line-height: normal;
+
+  &::after {
+    border: none;
+  }
+}
+
+.icon {
+  font-size: 44rpx;
+  color: $color-text-primary;
+}
+
+.iconFont {
+  font-size: 36rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.label {
+  font-size: 20rpx;
+  color: $color-text-secondary;
+}
+
+.labelActive {
+  color: $color-primary;
+}
+
+.divider {
+  width: 2rpx;
+  height: 48rpx;
+  background: $color-border;
+}
+
+/* Font Size Panel */
+.fontPanel {
+  display: flex;
+  justify-content: space-around;
+  padding: 24rpx 48rpx 24rpx;
+  border-top: 2rpx solid $color-border;
+  animation: fadeInUp 0.2s ease-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fontOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 16rpx 32rpx;
+  border-radius: $radius-md;
+  border: 2rpx solid transparent;
+}
+
+.fontOptionActive {
+  border-color: $color-primary;
+  background: rgba($color-primary, 0.08);
+}
+
+.fontPreview {
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.fontPreviewSm {
+  font-size: 28rpx;
+}
+
+.fontPreviewMd {
+  font-size: 36rpx;
+}
+
+.fontPreviewLg {
+  font-size: 44rpx;
+}
+
+.fontLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}

@@ -60,6 +60,16 @@
   display: inline-block;
 }
 
+.noVipTag {
+  font-size: 20rpx;
+  color: $color-text-tertiary;
+  background: $color-bg-hover;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-round;
+  margin-top: 8rpx;
+  display: inline-block;
+}
+
 // Stats
 .statsRow {
   display: flex;
@@ -187,6 +197,20 @@
   color: $color-text-tertiary;
 }
 
+.menuItemRight {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.menuBadge {
+  font-size: 18rpx;
+  color: $color-error;
+  background: rgba($color-error, 0.1);
+  padding: 2rpx 12rpx;
+  border-radius: $radius-xs;
+}
+
 // Sub views
 .subView {
   padding: $spacing-md;
@@ -216,7 +240,24 @@
   text-align: center;
   font-size: $font-size-sm;
   color: $color-text-tertiary;
-  padding: $spacing-xl 0;
+}
+
+.emptyWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+}
+
+.emptyIcon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.emptySubHint {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+  margin-top: 8rpx;
 }
 
 // Logout
@@ -257,4 +298,26 @@
 .fontSizeBtnActive {
   background: $color-primary;
   color: $color-text-white;
+}
+
+.fontSizeHint {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 16rpx;
+}
+
+.clearBtn {
+  width: 100%;
+  height: $button-height-md;
+  background: $color-bg-card;
+  border: 2rpx solid $color-error;
+  border-radius: $radius-button;
+  @include flex-center;
+  margin-top: $spacing-md;
+}
+
+.clearBtnText {
+  color: $color-error;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
 }

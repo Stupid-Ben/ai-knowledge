@@ -1,0 +1,14 @@
+@use '@/styles/variables.scss' as *;
+
+.wrapper {
+  padding: 36rpx 36rpx 200rpx;
+  background: $color-bg-page;
+}
+
+.heading {
+  display: block;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: 24rpx;
+}
