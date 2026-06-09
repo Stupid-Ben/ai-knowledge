@@ -1,0 +1,251 @@
+@use '@/styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollBody {
+  flex: 1;
+  height: 0;
+}
+
+// --- 播放器 ---
+.playerWrap {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; // 16:9
+  background: #000;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// --- 试看蒙层 ---
+.trialOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  @include flex-center;
+  z-index: 10;
+}
+
+.trialCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-lg;
+}
+
+.trialTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  margin-bottom: $spacing-sm;
+}
+
+.trialSub {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: $spacing-lg;
+  text-align: center;
+}
+
+.trialBtn {
+  background: $color-vip;
+  border-radius: $radius-button;
+  padding: $spacing-sm $spacing-xl;
+  box-shadow: 0 4rpx 16rpx rgba($color-vip, 0.4);
+}
+
+.trialBtnText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+// --- 信息区 ---
+.infoSection {
+  padding: $spacing-md $page-padding;
+  background: $color-bg-card;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  @include text-ellipsis-multi(2);
+  line-height: $line-height-tight;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: $spacing-sm;
+}
+
+.metaText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.metaDot {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+}
+
+.seriesTag {
+  display: inline-flex;
+  margin-top: $spacing-sm;
+  background: $color-primary-bg;
+  border-radius: $radius-xs;
+  padding: 4rpx 12rpx;
+  align-self: flex-start;
+}
+
+.seriesTagText {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  font-weight: $font-weight-medium;
+}
+
+// --- 简介 ---
+.descSection {
+  padding: $spacing-md $page-padding;
+  background: $color-bg-card;
+  margin-top: $spacing-sm;
+}
+
+.desc {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+  @include text-ellipsis-multi(2);
+}
+
+.descExpanded {
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+.descToggle {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  margin-top: $spacing-xs;
+}
+
+// --- 操作栏 ---
+.actionBar {
+  display: flex;
+  justify-content: space-around;
+  padding: $spacing-md $page-padding;
+  background: $color-bg-card;
+  margin-top: $spacing-sm;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.actionIcon {
+  font-size: 40rpx;
+}
+
+.actionText {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+}
+
+// --- 通用 section ---
+.section {
+  padding: $spacing-md $page-padding 0;
+  margin-top: $spacing-sm;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+// --- 选集列表 ---
+.episodeScroll {
+  @include scroll-x-container;
+  margin: 0 (-$page-padding);
+  padding: 0 $page-padding;
+}
+
+.episodeInner {
+  display: flex;
+  padding-right: $page-padding;
+}
+
+.episodeCard {
+  @include scroll-x-item(280rpx);
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-sm;
+  margin-right: $spacing-sm;
+  box-shadow: $shadow-card;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.episodeActive {
+  border: 2rpx solid $color-primary;
+  background: $color-primary-bg;
+}
+
+.episodeNum {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  font-weight: $font-weight-medium;
+}
+
+.episodeNumActive {
+  color: $color-primary;
+}
+
+.episodeTitle {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  @include text-ellipsis-multi(2);
+  line-height: $line-height-tight;
+}
+
+.episodeTitleActive {
+  color: $color-primary;
+}
+
+// --- 空态 ---
+.emptyPage {
+  min-height: 100vh;
+  @include flex-center;
+  background: $color-bg-page;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}
+
+.bottomSafe {
+  height: 40rpx;
+}

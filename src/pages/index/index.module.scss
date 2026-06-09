@@ -132,6 +132,7 @@
 }
 
 .bannerItem {
+  position: relative;
   height: 280rpx;
   border-radius: $radius-md;
   padding: $spacing-lg;
@@ -141,11 +142,22 @@
 }
 
 .bannerGreen {
-  background: linear-gradient(135deg, #07C160, #2ecc71);
+  background: linear-gradient(135deg, #0a9e54 0%, #07C160 40%, #38d984 100%);
 }
 
 .bannerGold {
-  background: linear-gradient(135deg, #FFB800, #FF8F1F);
+  background: linear-gradient(135deg, #e6a800 0%, #FFB800 40%, #ffd54f 100%);
+}
+
+.bannerOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: $radius-md;
+  // 搭配图片使用的半透明渐变遮罩，保留文字可读性
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.25) 100%);
 }
 
 .bannerTitle {

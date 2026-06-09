@@ -15,6 +15,8 @@ const BANNERS = [
     subtitle: '教您用大白话跟 AI 提问聊天，拒绝技术焦虑！',
     articleId: 'art-001',
     bannerClass: 'bannerGreen',
+    // 如需换图片，取消下面注释并填入图片地址，渐变遮罩会自动叠加
+    // bgImage: 'D:\code\ai-knowledge\src\pages\index\s1.png',
     buttonText: '极速学习'
   },
   {
@@ -23,6 +25,7 @@ const BANNERS = [
     subtitle: '无限次数解锁进阶精品科普，多达1000款开箱提示词。',
     isVipLink: true,
     bannerClass: 'bannerGold',
+   // bgImage: 'D:\code\ai-knowledge\src\pages\index\s2.png',
     buttonText: '开通VIP'
   }
 ];
@@ -175,8 +178,10 @@ const IndexPage: React.FC = () => {
             <SwiperItem key={banner.id}>
               <View
                 className={`${styles.bannerItem} ${styles[banner.bannerClass]}`}
+                style={banner.bgImage ? { backgroundImage: `url(${banner.bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
                 onClick={() => handleBannerTap(banner)}
               >
+                {banner.bgImage && <View className={styles.bannerOverlay} />}
                 <Text className={styles.bannerTitle}>{banner.title}</Text>
                 <Text className={styles.bannerSubtitle}>{banner.subtitle}</Text>
                 <View className={styles.bannerBtn}>

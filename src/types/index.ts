@@ -45,6 +45,31 @@ export interface User {
   unlockedIds: string[];
 }
 
+export interface VideoSeries {
+  key: string;
+  name: string;
+  cover: string;
+  desc: string;
+  total: number;
+  category: string;
+}
+
+export interface Video {
+  id: string;
+  title: string;
+  cover: string;
+  url: string;
+  duration: string;
+  seriesKey: string;
+  episode: number;
+  category: string;
+  isPremium: boolean;
+  desc: string;
+  plays: number;
+  collects: number;
+  publishedAt: string;
+}
+
 export interface AppState {
   user: User;
   isLoggedIn: boolean;
