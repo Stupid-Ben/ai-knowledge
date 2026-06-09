@@ -2,10 +2,12 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/category/index',
+    'pages/video/index',
     'pages/vip/index',
     'pages/mine/index',
     'pages/detail/index',
-    'pages/search/index'
+    'pages/search/index',
+    'pages/video-detail/index'
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -26,6 +28,10 @@ export default defineAppConfig({
       {
         pagePath: 'pages/category/index',
         text: '分类'
+      },
+      {
+        pagePath: 'pages/video/index',
+        text: '视频课'
       },
       {
         pagePath: 'pages/vip/index',

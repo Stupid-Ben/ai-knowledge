@@ -1,0 +1,55 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  @include scroll-x-item(400rpx);
+  flex-shrink: 0;
+  margin-right: $spacing-sm;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+}
+
+.coverWrap {
+  position: relative;
+  width: 100%;
+  height: 270rpx;
+  overflow: hidden;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+}
+
+.totalBadge {
+  position: absolute;
+  right: $spacing-sm;
+  bottom: $spacing-sm;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: $radius-round;
+  padding: 4rpx 16rpx;
+}
+
+.totalText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+}
+
+.info {
+  padding: $spacing-sm $spacing-md;
+}
+
+.name {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+}
+
+.desc {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  @include text-ellipsis;
+  margin-top: 6rpx;
+}

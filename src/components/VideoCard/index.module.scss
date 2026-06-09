@@ -1,0 +1,114 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-sm;
+  box-shadow: $shadow-card;
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.coverWrap {
+  position: relative;
+  width: 240rpx;
+  height: 136rpx;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+}
+
+.playBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56rpx;
+  height: 56rpx;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: $radius-round;
+  @include flex-center;
+}
+
+.playIcon {
+  font-size: 24rpx;
+  color: $color-text-white;
+  margin-left: 4rpx;
+}
+
+.duration {
+  position: absolute;
+  right: 8rpx;
+  bottom: 8rpx;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: $radius-xs;
+  padding: 2rpx 8rpx;
+}
+
+.durationText {
+  font-size: 20rpx;
+  color: $color-text-white;
+}
+
+.plays {
+  position: absolute;
+  left: 8rpx;
+  bottom: 8rpx;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: $radius-xs;
+  padding: 2rpx 8rpx;
+}
+
+.playsText {
+  font-size: 20rpx;
+  color: $color-text-white;
+}
+
+.premiumBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: $color-vip;
+  border-radius: 0 0 0 $radius-sm;
+  padding: 2rpx 10rpx;
+}
+
+.premiumBadgeText {
+  font-size: 18rpx;
+  color: $color-text-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis-multi(2);
+  line-height: $line-height-tight;
+}
+
+.series {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  margin-top: 6rpx;
+}
+
+.meta {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
