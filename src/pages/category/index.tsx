@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { View, Text, ScrollView } from '@tarojs/components';
+import { View, Text, Image, ScrollView } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import styles from './index.module.scss';
-import { CATEGORIES, MOCK_ARTICLES, CATEGORY_TAGLINES } from '@/data/articles';
+import { CATEGORIES, MOCK_ARTICLES, CATEGORY_TAGLINES, CATEGORY_COVERS, CATEGORY_TAGS, CATEGORY_ICONS } from '@/data/articles';
 import ArticleCard from '@/components/ArticleCard';
 
 const PAGE_SIZE = 3;
@@ -15,6 +15,15 @@ const CategoryPage: React.FC = () => {
   useDidShow(() => {
     console.log('[CategoryPage] 分类页面展示');
   });
+
+  // 动态统计每个分类的文章数
+  const catCountMap = useMemo(() => {
+    const map: Record<string, number> = {};
+    CATEGORIES.forEach(c => {
+      map[c.key] = MOCK_ARTICLES.filter(a => a.category === c.key).length;
+    });
+    return map;
+  }, []);
 
   const allFiltered = useMemo(() => {
     if (!selectedCat) return [];
@@ -49,14 +58,6 @@ const CategoryPage: React.FC = () => {
       setIsLoadingMore(false);
     }, 500);
   }, [isLoadingMore, hasMore]);
-
-  const getCategoryIcon = (icon: string): string => {
-    const map: Record<string, string> = {
-      Sparkles: '✨', Briefcase: '💼', GraduationCap: '🎓',
-      Home: '🏠', Palette: '🎨', Flame: '🔥'
-    };
-    return map[icon] || '✨';
-  };
 
   // ===== 文章列表视图 =====
   if (selectedCat) {
@@ -98,40 +99,63 @@ const CategoryPage: React.FC = () => {
     );
   }
 
-  // ===== 分类宫格视图 =====
+  // ===== 大卡封面视图 =====
   return (
     <ScrollView className={styles.page} scrollY>
-      <View className={styles.gridView}>
-        <View className={styles.gridHeader}>
-          <Text className={styles.gridTitle}>科普专题分类</Text>
-          <Text className={styles.gridSubtitle}>零基础精挑细选的专属学习路线，点击查看详情</Text>
-        </View>
-
-        <View className={styles.categoryGrid}>
-          {CATEGORIES.map((cat) => {
-            const count = MOCK_ARTICLES.filter((a) => a.category === cat.key).length;
-            return (
-              <View
-                key={cat.key}
-                className={styles.categoryCard}
-                onClick={() => handleSelectCat(cat.key)}
-              >
-                <View className={styles.categoryIcon}>
-                  <Text className={styles.categoryIconText}>{getCategoryIcon(cat.icon)}</Text>
-                </View>
-                <View className={styles.categoryInfo}>
-                  <Text className={styles.categoryName}>{cat.name}</Text>
-                  <Text className={styles.categoryTagline}>
-                    {CATEGORY_TAGLINES[cat.key] || '精品资料持续整理中'}
-                  </Text>
-                  <Text className={styles.categoryCount}>{count} 篇科普</Text>
-                </View>
-                <Text className={styles.categoryArrow}>{'›'}</Text>
-              </View>
-            );
-          })}
-        </View>
+      <View className={styles.pageHeader}>
+        <Text className={styles.pageTitle}>分类</Text>
+        <Text className={styles.pageSubtitle}>选择你感兴趣的主题，开启 AI 学习之旅</Text>
       </View>
+
+      <View className={styles.cardList}>
+        {CATEGORIES.map((cat) => {
+          const count = catCountMap[cat.key] || 0;
+          const tags = CATEGORY_TAGS[cat.key] || [];
+          const cover = CATEGORY_COVERS[cat.key];
+          const icon = CATEGORY_ICONS[cat.key] || '✨';
+          const tagline = CATEGORY_TAGLINES[cat.key] || '';
+
+          return (
+            <View
+              key={cat.key}
+              className={styles.coverCard}
+              onClick={() => handleSelectCat(cat.key)}
+            >
+              {/* 封面区 */}
+              <View className={styles.coverArea}>
+                <Image
+                  className={styles.coverImg}
+                  src={cover}
+                  mode="aspectFill"
+                  lazyLoad
+                />
+                <View className={styles.coverOverlay} />
+                <View className={styles.coverTop}>
+                  <View className={styles.coverTitleRow}>
+                    <Text className={styles.coverIcon}>{icon}</Text>
+                    <Text className={styles.coverName}>{cat.name}</Text>
+                  </View>
+                  <View className={styles.coverBadge}>
+                    <Text className={styles.coverBadgeText}>{count} 篇</Text>
+                  </View>
+                </View>
+              </View>
+
+              {/* 信息区 */}
+              <View className={styles.infoArea}>
+                <Text className={styles.tagline}>{tagline}</Text>
+                <View className={styles.tagsRow}>
+                  {tags.map((tag) => (
+                    <Text key={tag} className={styles.tag}>{tag}</Text>
+                  ))}
+                </View>
+              </View>
+            </View>
+          );
+        })}
+      </View>
+
+      <View style={{ height: '140rpx' }} />
     </ScrollView>
   );
 };

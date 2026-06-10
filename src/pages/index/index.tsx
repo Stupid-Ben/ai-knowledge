@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import styles from './index.module.scss';
 import { useAppContext } from '@/store/appContext';
 import { Article } from '@/types';
-import { MOCK_ARTICLES, CATEGORIES, RANKING_LISTS } from '@/data/articles';
+import { MOCK_ARTICLES, RANKING_LISTS, getRecommendFeed } from '@/data/articles';
 import ArticleCard from '@/components/ArticleCard';
 import VideoRail from '@/components/VideoRail';
 import { MOCK_VIDEOS } from '@/data/videos';
@@ -34,7 +34,8 @@ const BANNERS = [
 const IndexPage: React.FC = () => {
   const { isLoggedIn, login } = useAppContext();
 
-  const [feedArticles, setFeedArticles] = useState<Article[]>(() => MOCK_ARTICLES.slice(0, 4));
+  const [feedArticles, setFeedArticles] = useState<Article[]>(() => getRecommendFeed(1, 10).list);
+  const [feedPage, setFeedPage] = useState(1);
   const [activeRankingTab, setActiveRankingTab] = useState<'hot' | 'collect' | 'newbie'>('hot');
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -72,10 +73,6 @@ const IndexPage: React.FC = () => {
     }
   };
 
-  const handleCategoryTap = (catKey: string) => {
-    Taro.switchTab({ url: `/pages/category/index?category=${catKey}` });
-  };
-
   const handleArticleClick = (articleId: string) => {
     Taro.navigateTo({ url: `/pages/detail/index?id=${articleId}` });
   };
@@ -88,18 +85,19 @@ const IndexPage: React.FC = () => {
   const handleScrollToLower = () => {
     if (isLoadingMore || !hasMore) return;
     setIsLoadingMore(true);
+    const nextPage = feedPage + 1;
     setTimeout(() => {
-      const currentLength = feedArticles.length;
-      if (currentLength >= MOCK_ARTICLES.length) {
-        setHasMore(false);
-      } else {
-        setFeedArticles((prev) => [...prev, ...MOCK_ARTICLES.slice(currentLength, currentLength + 3)]);
-        if (currentLength + 3 >= MOCK_ARTICLES.length) {
-          setHasMore(false);
-        }
+      const { list, hasMore: more } = getRecommendFeed(nextPage, 10);
+      // 按 id 去重追加
+      const existingIds = new Set(feedArticles.map(a => a.id));
+      const newItems = list.filter(a => !existingIds.has(a.id));
+      if (newItems.length > 0) {
+        setFeedArticles(prev => [...prev, ...newItems]);
       }
+      setFeedPage(nextPage);
+      setHasMore(more);
       setIsLoadingMore(false);
-    }, 800);
+    }, 600);
   };
 
   const currentRankingArticles = useMemo(() => {
@@ -111,14 +109,6 @@ const IndexPage: React.FC = () => {
   const formatViews = (v: number): string => {
     if (v >= 10000) return `${(v / 10000).toFixed(1)}万`;
     return String(v);
-  };
-
-  const getCategoryIcon = (icon: string): string => {
-    const map: Record<string, string> = {
-      Sparkles: '✨', Briefcase: '💼', GraduationCap: '🎓',
-      Home: '🏠', Palette: '🎨', Flame: '🔥'
-    };
-    return map[icon] || '✨';
   };
 
   // Unlogged welcome screen
@@ -202,31 +192,6 @@ const IndexPage: React.FC = () => {
       {/* Video Rail */}
       <VideoRail videos={hotVideos} />
 
-      {/* 6 Categories Grid */}
-      <View className={styles.sectionHeader}>
-        <Text className={styles.sectionTitle}>文章专题</Text>
-      </View>
-      <View className={styles.categoryGrid}>
-        {CATEGORIES.map((cat) => {
-          const count = MOCK_ARTICLES.filter((a) => a.category === cat.key).length;
-          return (
-            <View
-              key={cat.key}
-              className={styles.categoryCard}
-              onClick={() => handleCategoryTap(cat.key)}
-            >
-              <View className={styles.categoryIcon}>
-                <Text className={styles.categoryIconText}>{getCategoryIcon(cat.icon)}</Text>
-              </View>
-              <View>
-                <Text className={styles.categoryName}>{cat.name}</Text>
-                <Text className={styles.categoryCount}>{count} 篇科普</Text>
-              </View>
-            </View>
-          );
-        })}
-      </View>
-
       {/* Ranking Tabs */}
       <View className={styles.sectionHeader}>
         <Text className={styles.sectionTitle}>必看文章</Text>
@@ -278,6 +243,9 @@ const IndexPage: React.FC = () => {
           )}
         </View>
       </View>
+
+      {/* 底部安全留白 */}
+      <View style={{ height: '140rpx' }} />
     </ScrollView>
   );
 };

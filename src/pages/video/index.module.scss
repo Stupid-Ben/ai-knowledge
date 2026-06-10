@@ -25,13 +25,25 @@
 
 .seriesScroll {
   @include scroll-x-container;
-  margin: 0 (-$page-padding);
-  padding: 0 $page-padding;
+  margin-left: -$page-padding;
+  padding-left: $page-padding;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100rpx;
+    background: linear-gradient(to right, transparent, $color-bg-page);
+    pointer-events: none;
+    z-index: 1;
+  }
 }
 
 .seriesInner {
   display: flex;
-  padding-right: $page-padding;
 }
 
 // --- 分类 Chips ---
@@ -90,7 +102,7 @@
 }
 
 .bottomSafe {
-  height: 140rpx;
+  height: 40rpx;
 }
 
 // --- 登录引导 ---

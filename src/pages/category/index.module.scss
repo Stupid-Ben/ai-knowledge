@@ -1,96 +1,136 @@
 @use '@/styles/variables.scss' as *;
 
 .page {
-  min-height: 100vh;
+  height: 100vh;
   background: $color-bg-page;
-  padding-bottom: 140rpx;
 }
 
-// Grid view
-.gridView {
-  padding: $spacing-md;
+.pageHeader {
+  padding: $spacing-lg $page-padding $spacing-md;
 }
 
-.gridHeader {
-  margin-bottom: $spacing-md;
-}
-
-.gridTitle {
-  font-size: $font-size-sm;
+.pageTitle {
+  font-size: $font-size-xxl;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
 
-.gridSubtitle {
-  font-size: 22rpx;
+.pageSubtitle {
+  font-size: $font-size-sm;
   color: $color-text-tertiary;
-  margin-top: 4rpx;
+  margin-top: 6rpx;
 }
 
-.categoryGrid {
+.cardList {
+  padding: 0 $page-padding;
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm;
+  gap: 24rpx;
 }
 
-.categoryCard {
+// --- 封面大卡 ---
+.coverCard {
   background: $color-bg-card;
   border-radius: $radius-lg;
-  padding: $spacing-md;
+  overflow: hidden;
   box-shadow: $shadow-card;
+  // 按压反馈
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.99);
+  }
+}
+
+.coverArea {
+  position: relative;
+  width: 100%;
+  height: 240rpx;
+  overflow: hidden;
+}
+
+.coverImg {
+  width: 100%;
+  height: 100%;
+}
+
+.coverOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160rpx;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.coverTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-md;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.coverTitleRow {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
+  gap: 10rpx;
 }
 
-.categoryIcon {
-  width: 96rpx;
-  height: 96rpx;
-  background: $color-primary-bg;
-  border-radius: $radius-lg;
-  @include flex-center;
-  flex-shrink: 0;
-}
-
-.categoryIconText {
+.coverIcon {
   font-size: 40rpx;
 }
 
-.categoryInfo {
-  flex: 1;
-  min-width: 0;
+.coverName {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
 }
 
-.categoryName {
-  font-size: $font-size-md;
-  font-weight: $font-weight-semibold;
-  color: $color-text-primary;
-}
-
-.categoryTagline {
-  font-size: 22rpx;
-  color: $color-text-tertiary;
-  margin-top: 4rpx;
-  @include text-ellipsis;
-}
-
-.categoryCount {
-  font-size: 20rpx;
-  color: $color-text-tertiary;
-  background: $color-bg-hover;
-  padding: 4rpx 12rpx;
+.coverBadge {
+  background: rgba(255, 255, 255, 0.25);
   border-radius: $radius-round;
-  margin-top: 8rpx;
-  align-self: flex-start;
+  padding: 4rpx 16rpx;
+  backdrop-filter: blur(4px);
 }
 
-.categoryArrow {
-  font-size: $font-size-lg;
-  color: $color-text-disabled;
-  flex-shrink: 0;
+.coverBadgeText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
 }
 
-// List view
+// --- 信息区 ---
+.infoArea {
+  padding: $spacing-md;
+}
+
+.tagline {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+  @include text-ellipsis-multi(2);
+}
+
+.tagsRow {
+  display: flex;
+  gap: 10rpx;
+  flex-wrap: wrap;
+  margin-top: $spacing-sm;
+}
+
+.tag {
+  font-size: $font-size-xs;
+  color: $color-primary;
+  background: $color-primary-bg;
+  padding: 4rpx 14rpx;
+  border-radius: $radius-xs;
+}
+
+// ===== 列表视图（保持原有） =====
 .listView {
   min-height: 100vh;
   background: $color-bg-page;

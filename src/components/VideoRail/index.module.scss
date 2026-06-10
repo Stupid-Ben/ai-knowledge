@@ -34,19 +34,19 @@
 
 .railInner {
   display: flex;
-  gap: 20rpx;
+  gap: 24rpx;
   padding-right: $page-padding;
 }
 
 .railCard {
   flex-shrink: 0;
-  width: 240rpx;
+  width: 350rpx;
 }
 
 .railCoverWrap {
   position: relative;
-  width: 240rpx;
-  height: 136rpx;
+  width: 350rpx;
+  height: 197rpx;
   border-radius: $radius-md;
   overflow: hidden;
 }
@@ -61,15 +61,15 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 48rpx;
-  height: 48rpx;
+  width: 64rpx;
+  height: 64rpx;
   background: rgba(255, 255, 255, 0.35);
   border-radius: $radius-round;
   @include flex-center;
 }
 
 .railPlayIcon {
-  font-size: 20rpx;
+  font-size: 28rpx;
   color: $color-text-white;
   margin-left: 4rpx;
 }
@@ -80,11 +80,11 @@
   bottom: 8rpx;
   background: rgba(0, 0, 0, 0.6);
   border-radius: $radius-xs;
-  padding: 2rpx 8rpx;
+  padding: 2rpx 10rpx;
 }
 
 .railDurationText {
-  font-size: 18rpx;
+  font-size: 22rpx;
   color: $color-text-white;
 }
 
@@ -94,18 +94,18 @@
   right: 0;
   background: $color-vip;
   border-radius: 0 0 0 $radius-sm;
-  padding: 2rpx 8rpx;
+  padding: 2rpx 12rpx;
 }
 
 .railPremiumText {
-  font-size: 16rpx;
+  font-size: 18rpx;
   color: $color-text-primary;
   font-weight: $font-weight-semibold;
 }
 
 .railCardTitle {
   display: block;
-  font-size: $font-size-sm;
+  font-size: $font-size-md;
   font-weight: $font-weight-medium;
   color: $color-text-primary;
   @include text-ellipsis;

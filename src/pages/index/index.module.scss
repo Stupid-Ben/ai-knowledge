@@ -1,9 +1,8 @@
 @use '@/styles/variables.scss' as *;
 
 .page {
-  min-height: 100vh;
+  height: 100vh;
   background: $color-bg-page;
-  padding-bottom: 140rpx;
 }
 
 // Welcome / Unlogged screen
@@ -126,14 +125,14 @@
 }
 
 .bannerSwiper {
-  height: 280rpx;
+  height: 350rpx;
   border-radius: $radius-md;
   overflow: hidden;
 }
 
 .bannerItem {
   position: relative;
-  height: 280rpx;
+  height: 350rpx;
   border-radius: $radius-md;
   padding: $spacing-lg;
   display: flex;
