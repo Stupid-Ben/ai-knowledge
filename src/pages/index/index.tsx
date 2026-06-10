@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { View, Text, ScrollView, Swiper, SwiperItem } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import classnames from 'classnames';
@@ -6,6 +6,8 @@ import styles from './index.module.scss';
 import { useAppContext } from '@/store/appContext';
 import { Article } from '@/types';
 import { MOCK_ARTICLES, RANKING_LISTS, getRecommendFeed } from '@/data/articles';
+import { callFn } from '@/utils/cloud';
+import { track } from '@/utils/track';
 import ArticleCard from '@/components/ArticleCard';
 import VideoRail from '@/components/VideoRail';
 import { MOCK_VIDEOS } from '@/data/videos';
@@ -34,20 +36,17 @@ const BANNERS = [
 const IndexPage: React.FC = () => {
   const { isLoggedIn, login } = useAppContext();
 
-  const [feedArticles, setFeedArticles] = useState<Article[]>(() => getRecommendFeed(1, 10).list);
-  const [feedPage, setFeedPage] = useState(1);
+  const [feedArticles, setFeedArticles] = useState<Article[]>([]);
+  const [feedPage, setFeedPage] = useState(0);
   const [activeRankingTab, setActiveRankingTab] = useState<'hot' | 'collect' | 'newbie'>('hot');
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [useCloud, setUseCloud] = useState(true);
 
   const hotVideos = useMemo(
     () => [...MOCK_VIDEOS].sort((a, b) => b.plays - a.plays).slice(0, 8),
     []
   );
-
-  useDidShow(() => {
-    console.log('[IndexPage] 首页展示');
-  });
 
   const handleLogin = () => {
     login();
@@ -74,6 +73,8 @@ const IndexPage: React.FC = () => {
   };
 
   const handleArticleClick = (articleId: string) => {
+    const art = feedArticles.find(a => a.id === articleId) || MOCK_ARTICLES.find(a => a.id === articleId);
+    track('article_open', { articleId, category: art?.category, isPremium: art?.isPremium });
     Taro.navigateTo({ url: `/pages/detail/index?id=${articleId}` });
   };
 
@@ -81,23 +82,48 @@ const IndexPage: React.FC = () => {
     Taro.navigateTo({ url: `/pages/detail/index?id=${articleId}` });
   };
 
+  // 加载一页文章（优先云，回退本地）
+  const loadFeedPage = useCallback(async (page: number) => {
+    if (useCloud) {
+      try {
+        const res = await callFn<{ list: Article[]; hasMore: boolean }>('getArticles', { page, pageSize: 10 });
+        if (res && res.list) {
+          const existingIds = new Set(feedArticles.map(a => a.id));
+          const newItems = res.list.filter(a => !existingIds.has(a.id));
+          setFeedArticles(prev => [...prev, ...newItems]);
+          setHasMore(res.hasMore);
+          setFeedPage(page);
+          return;
+        }
+      } catch (err) {
+        console.warn('[IndexPage] 云加载失败，回退本地', err);
+        setUseCloud(false);
+      }
+    }
+    // 本地回退
+    const { list, hasMore: more } = getRecommendFeed(page, 10);
+    const existingIds = new Set(feedArticles.map(a => a.id));
+    const newItems = list.filter(a => !existingIds.has(a.id));
+    setFeedArticles(prev => [...prev, ...newItems]);
+    setHasMore(more);
+    setFeedPage(page);
+  }, [useCloud, feedArticles]);
+
+  // 首屏加载
+  useDidShow(() => {
+    console.log('[IndexPage] 首页展示');
+    if (feedArticles.length === 0) {
+      loadFeedPage(1);
+    }
+  });
+
   // Scroll to load more
   const handleScrollToLower = () => {
     if (isLoadingMore || !hasMore) return;
     setIsLoadingMore(true);
-    const nextPage = feedPage + 1;
-    setTimeout(() => {
-      const { list, hasMore: more } = getRecommendFeed(nextPage, 10);
-      // 按 id 去重追加
-      const existingIds = new Set(feedArticles.map(a => a.id));
-      const newItems = list.filter(a => !existingIds.has(a.id));
-      if (newItems.length > 0) {
-        setFeedArticles(prev => [...prev, ...newItems]);
-      }
-      setFeedPage(nextPage);
-      setHasMore(more);
+    loadFeedPage(feedPage + 1).finally(() => {
       setIsLoadingMore(false);
-    }, 600);
+    });
   };
 
   const currentRankingArticles = useMemo(() => {

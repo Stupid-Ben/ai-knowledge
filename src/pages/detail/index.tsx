@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { View, Text } from '@tarojs/components';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useLoad, usePageScroll, useDidShow } from '@tarojs/taro';
 import styles from './index.module.scss';
 import { useAppContext } from '@/store/appContext';
 import { MOCK_ARTICLES } from '@/data/articles';
+import { track } from '@/utils/track';
 
 import CoverHeader from './components/CoverHeader';
 import ArticleMeta from './components/ArticleMeta';
@@ -22,6 +23,8 @@ const DetailPage: React.FC = () => {
   // dev 演示用：模拟会员/非会员切换
   const [devIsMember, setDevIsMember] = useState(false);
 
+  const hasTrackedReadComplete = useRef(false);
+
   useLoad((options) => {
     const id = options?.id || 'art-003';
     setArticleId(id);
@@ -30,6 +33,25 @@ const DetailPage: React.FC = () => {
       const saved = Taro.getStorageSync('ai_font_size');
       if (saved) setFontSizeKey(saved);
     } catch (_) {}
+  });
+
+  // 埋点：article_open
+  useDidShow(() => {
+    if (articleId) {
+      const art = MOCK_ARTICLES.find(a => a.id === articleId);
+      if (art) {
+        track('article_open', { articleId: art.id, category: art.category, isPremium: art.isPremium });
+      }
+    }
+  });
+
+  // 埋点：article_read_complete（滚到底部触发一次）
+  usePageScroll((e) => {
+    if (hasTrackedReadComplete.current) return;
+    if (e.scrollTop > 800) {
+      hasTrackedReadComplete.current = true;
+      track('article_read_complete', { articleId });
+    }
   });
 
   const article = useMemo(() => {
@@ -54,6 +76,15 @@ const DetailPage: React.FC = () => {
     }
   }, [article.id]);
 
+  // 埋点：paywall_impression（首次展示会员墙时上报一次）
+  const hasTrackedPaywall = useRef(false);
+  useEffect(() => {
+    if (showPaywall && !hasTrackedPaywall.current) {
+      hasTrackedPaywall.current = true;
+      track('paywall_impression', { articleId: article.id });
+    }
+  }, [showPaywall, article.id]);
+
   const toggleFavorite = () => {
     const newIds = isFavorited
       ? user.collectedIds.filter((id) => id !== article.id)
@@ -75,6 +106,7 @@ const DetailPage: React.FC = () => {
   // 解锁回调（单篇解锁，非全局会员）
   const handleUnlock = () => {
     setShowPlanSheet(false);
+    track('lead_submit', { articleId: article.id, category: article.category });
     if (!user.unlockedIds.includes(article.id)) {
       setUser({
         ...user,
@@ -121,7 +153,10 @@ const DetailPage: React.FC = () => {
 
       {/* 4. 付费遮罩 + CTA */}
       {showPaywall && (
-        <Paywall onUnlock={() => setShowPlanSheet(true)} />
+        <Paywall onUnlock={() => {
+          track('unlock_click', { articleId: article.id, category: article.category });
+          setShowPlanSheet(true);
+        }} />
       )}
 
       {/* 5. 相关推荐 */}

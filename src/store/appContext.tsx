@@ -1,6 +1,7 @@
 import React, { createContext, useState, useCallback, useContext, ReactNode, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 import { User, AppContextType } from '@/types';
+import { callFn, initCloud } from '@/utils/cloud';
 
 const DEFAULT_USER: User = {
   isMember: false,
@@ -25,18 +26,35 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [user, setUserState] = useState<User>(DEFAULT_USER);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-  // 使用 effect 异步加载存储数据，避免在初始化时同步读取导致超时
+  // 启动时尝试云登录
   useEffect(() => {
-    try {
-      const savedUser = Taro.getStorageSync('ai_science_user');
-      if (savedUser) {
-        setUserState(JSON.parse(savedUser));
+    const doLogin = async () => {
+      // 确保云开发已初始化
+      initCloud();
+      try {
+        const result = await callFn<{ openid: string; isMember: boolean }>('login');
+        if (result && result.openid) {
+          setUserState(prev => ({
+            ...prev,
+            isMember: result.isMember || false
+          }));
+          setIsLoggedIn(true);
+          try {
+            Taro.setStorageSync('ai_science_logged_in', 'true');
+          } catch (e) { /* ignore */ }
+        }
+      } catch (err) {
+        console.warn('[AppContext] 云登录失败，回退本地模式', err);
+        // 回退：从本地存储恢复
+        try {
+          const savedUser = Taro.getStorageSync('ai_science_user');
+          if (savedUser) setUserState(JSON.parse(savedUser));
+          const loggedIn = Taro.getStorageSync('ai_science_logged_in');
+          setIsLoggedIn(loggedIn === 'true');
+        } catch (e) { /* ignore */ }
       }
-      const loggedIn = Taro.getStorageSync('ai_science_logged_in');
-      setIsLoggedIn(loggedIn === 'true');
-    } catch (e) {
-      console.error('[AppContext] 加载存储数据失败', e);
-    }
+    };
+    doLogin();
   }, []);
 
   const setUser = useCallback((u: User) => {
@@ -64,7 +82,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       Taro.removeStorageSync('ai_science_logged_in');
       Taro.removeStorageSync('ai_science_user');
     } catch (e) {
-      console.error('[AppContext] 清除登录状态失败', e);
+      console.error('[AppContext] 清除存储失败', e);
     }
   }, []);
 

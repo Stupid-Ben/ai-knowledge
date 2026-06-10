@@ -91,10 +91,9 @@
 }
 
 .coverBadge {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.35);
   border-radius: $radius-round;
   padding: 4rpx 16rpx;
-  backdrop-filter: blur(4px);
 }
 
 .coverBadgeText {
