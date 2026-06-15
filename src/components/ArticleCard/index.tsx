@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
-import Taro from '@tarojs/taro';
 import classnames from 'classnames';
 import styles from './index.module.scss';
 import { Article } from '@/types';
+import { FALLBACK_IMG } from '@/utils/media';
 
 interface ArticleCardProps {
   article: Article;
@@ -11,8 +11,16 @@ interface ArticleCardProps {
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({ article, onClick }) => {
+  const [imgSrc, setImgSrc] = useState(article.cover);
+
   const handleClick = () => {
     onClick(article.id);
+  };
+
+  const handleImageError = () => {
+    if (imgSrc !== FALLBACK_IMG) {
+      setImgSrc(FALLBACK_IMG);
+    }
   };
 
   const formatViews = (v: number): string => {
@@ -25,8 +33,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, onClick }) => {
       <View className={styles.coverWrap}>
         <Image
           className={styles.cover}
-          src={article.cover}
+          src={imgSrc}
           mode="aspectFill"
+          lazyLoad
+          onError={handleImageError}
         />
       </View>
       <View className={styles.info}>

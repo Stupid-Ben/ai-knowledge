@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { View, Text, Video, ScrollView } from '@tarojs/components';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { View, Text, Video, Image, ScrollView } from '@tarojs/components';
 import Taro, { useRouter, useDidShow } from '@tarojs/taro';
 import { useAppContext } from '@/store/appContext';
 import { MOCK_VIDEOS, VIDEO_SERIES } from '@/data/videos';
+import { resolveTempUrl, FALLBACK_IMG } from '@/utils/media';
 import VideoCard from '@/components/VideoCard';
 import styles from './index.module.scss';
 
@@ -17,6 +18,8 @@ const VideoDetailPage: React.FC = () => {
   const [trialEnded, setTrialEnded] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
   const [collected, setCollected] = useState(false);
+  const [videoUrl, setVideoUrl] = useState('');
+  const [coverSrc, setCoverSrc] = useState('');
 
   // 从 VIP 页返回时刷新会员状态
   useDidShow(() => {
@@ -27,6 +30,20 @@ const VideoDetailPage: React.FC = () => {
     () => MOCK_VIDEOS.find(v => v.id === currentId),
     [currentId]
   );
+
+  // 解析视频 URL（fileID → https）和封面
+  useEffect(() => {
+    if (!currentVideo) return;
+    setCoverSrc(currentVideo.cover);
+    // 如果是 cloud fileID 则转换，否则直接使用
+    if (currentVideo.url.startsWith('cloud://')) {
+      resolveTempUrl(currentVideo.url).then(url => {
+        setVideoUrl(url || currentVideo.url);
+      });
+    } else {
+      setVideoUrl(currentVideo.url);
+    }
+  }, [currentVideo]);
 
   const seriesVideos = useMemo(() => {
     if (!currentVideo) return [];
@@ -60,7 +77,6 @@ const VideoDetailPage: React.FC = () => {
   }, [currentVideo, user.isMember, trialEnded]);
 
   const handleEnded = useCallback(() => {
-    // 播放结束，如果有下一集自动提示
     if (!currentVideo) return;
     const nextEp = seriesVideos.find(v => v.episode === currentVideo.episode + 1);
     if (nextEp) {
@@ -115,8 +131,13 @@ const VideoDetailPage: React.FC = () => {
     setCurrentId(id);
     setTrialEnded(false);
     setDescExpanded(false);
-    // 滚动到顶部
     Taro.pageScrollTo({ scrollTop: 0, duration: 300 });
+  };
+
+  const handleCoverError = () => {
+    if (coverSrc !== FALLBACK_IMG) {
+      setCoverSrc(FALLBACK_IMG);
+    }
   };
 
   const formatPlays = (v: number): string => {
@@ -136,19 +157,25 @@ const VideoDetailPage: React.FC = () => {
     <View className={styles.page}>
       {/* 播放器区域 */}
       <View className={styles.playerWrap}>
-        <Video
-          id="detailVideo"
-          className={styles.video}
-          src={currentVideo.url}
-          poster={currentVideo.cover}
-          controls
-          autoplay
-          showFullscreenBtn
-          showPlayBtn
-          showCenterPlayBtn
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={handleEnded}
-        />
+        {videoUrl ? (
+          <Video
+            id="detailVideo"
+            className={styles.video}
+            src={videoUrl}
+            poster={coverSrc}
+            controls
+            autoplay
+            showFullscreenBtn
+            showPlayBtn
+            showCenterPlayBtn
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={handleEnded}
+          />
+        ) : (
+          <View className={styles.videoPlaceholder}>
+            <Text style={{ color: '#999' }}>加载中...</Text>
+          </View>
+        )}
         {/* 试看蒙层 */}
         {showPaywall && (
           <View className={styles.trialOverlay}>
